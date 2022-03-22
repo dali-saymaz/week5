@@ -5,12 +5,11 @@ import PersonList from "./components/PorsonList"
 
 function App() {
 
-  const [person, setPerson] = useState([])
- 
+  const [person, setPerson] = useState({})
+  const [personList, setPersonList] = useState([])
 
   useEffect(() => {
     getListOfPerson()
-
   }, [])
 
   const savePerson = async (pPerson) => {
@@ -21,44 +20,37 @@ function App() {
     })
 
   }
-  const deletePerson = async (id) => {
-    console.log(id)
-    await fetch(`http://localhost:3000/people/${id}`, {
+
+  const deletePerson = async (pPerson) => {
+    await fetch('http://localhost:3000/people/${id}', {
       method: 'DELETE',
       // body: JSON.stringify(pPerson),
-      headers: { 'Content-Type': 'application/json' },
+      // headers: { 'Content-Type': 'application/json' },
     })
-    .then((res) => {
-      let newlist=person.filter(item =>{
-        return item.id !== id;
-      
-      })
-      setPerson(newlist)
-      // if (res.status !== 200) {
-      //   return;
-      // } else {
-      //   setPerson(
-      //     person.filter((person) => {
-      //       return person.id !== id;
-      //     })
-      //   );
-      // }
 
+    .then((res) => {
+      if (res.status !== 200) {
+        return;
+      } else {
+        setPerson(
+          pPerson.filter((user) => {
+            return user.id !== id;
+          })
+        );
+      }
     })
+    .catch((err) => {
+      console.log(err);
+    });
 
   }
 
-
-
-
   const getListOfPerson = async () => {
-    
     const respone = await fetch('http://localhost:3000/people', {
       method: 'GET'
     })
     const list = await respone.json();
-    setPerson(list)
-    console.log(list)
+    setPersonList(list)
 
   }
   const submit = e => {
@@ -107,7 +99,7 @@ function App() {
           </form>
         </div>
         <div className="col">
-          <PersonList list={person} deletePerson={deletePerson} />
+          <PersonList list={personList} />
         </div>
       </div>
     </div>

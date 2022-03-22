@@ -1,0 +1,18 @@
+{
+  "people": [
+    {
+      "firstName": "dali",
+      "lastName": "das",
+      "email": "dali@gmail.com",
+      "password": "1234",
+      "about": "dloremmmmmm",
+      "id": 1
+    },
+    {
+      "firstName": "Mehmet",
+      "lastName": "sdfg",
+      "email": "dali@das.com",
+      "id": 2
+    }
+  ]
+}
